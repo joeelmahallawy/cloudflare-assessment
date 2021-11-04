@@ -1,8 +1,23 @@
-// export {};
-// bg={colorMode === "dark" ? "gray.500" : "gray.200"}
-//               _hover={{}}
-//               _placeholder={{
-//                 color: colorMode === "dark" ? "gray.200" : "gray",
-//               }}
-//               _focus={{}}
-//               variant="filled"
+import { extendTheme, ThemeConfig, useColorMode } from "@chakra-ui/react";
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+const config: ThemeConfig = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+const theme = extendTheme({ config });
+
+const API_ENDPOINT = "https://my-worker.youssef-worker.workers.dev/posts";
+export { theme, months, API_ENDPOINT };

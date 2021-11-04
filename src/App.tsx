@@ -1,26 +1,39 @@
-import { Center } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Flex,
+  Text,
+  Heading,
+  useColorMode,
+} from "@chakra-ui/react";
+import { MdDarkMode } from "react-icons/md";
 import Posts from "./components/posts";
-// import { Button } from "@chakra-ui/button";
 
 function App() {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <>
-      <Center flexDir="column">
-        <Posts />
-        {/* <Flex id="header" bg="gray" justifyContent="space-between" p={3}>
-          <Heading>CloudBook</Heading>
-          <Box h="100px" w="200px">
-            <Image
-              w="100%"
-              h="100%"
-              src="https://apply.cloudflareworkers.com/Cloudflare-emblem-1024x726.jpeg"
-            />
-          </Box>
-        </Flex> */}
+    <Center flexDir="column">
+      <Center flexDir="column" id="header" p={10}>
+        <Flex>
+          <Heading mr={3}>Welcome to CryptoCloud!</Heading>
+          <Button
+            bg="none"
+            _focus={{}}
+            borderRadius="30%"
+            _active={{}}
+            onClick={toggleColorMode}
+          >
+            <MdDarkMode />
+          </Button>
+        </Flex>
+        <Text>
+          Where people can talk about how much they love cloud computing and
+          blockchain technology{" "}
+        </Text>
       </Center>
-    </>
+      <Posts />
+    </Center>
   );
 }
 
 export default App;
-// http://127.0.0.1:8787/posts
