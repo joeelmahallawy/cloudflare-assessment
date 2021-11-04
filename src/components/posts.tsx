@@ -9,7 +9,6 @@ import {
   Button,
   Input,
   FormControl,
-  FormHelperText,
   FormLabel,
   useColorMode,
   Link,
@@ -19,19 +18,20 @@ import { useAsyncFn, useUpdate } from "react-use";
 import { UserPosts } from "../interfaces/userPosts";
 import { MdDarkMode } from "react-icons/md";
 import months from "../configs/months";
+import { BiUpArrow } from "react-icons/bi";
+import addPost from "../helpers/addPost";
 
 const Posts = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [userHasPosted, setUserHasPosted] = useState(false);
   const [postContent, setpostContent] = useState("");
   const [postTitle, setpostTitle] = useState("");
   const [userName, setuserName] = useState("");
+
   const [state, doFetch] = useAsyncFn(async () => {
     try {
       const response = await fetch("http://127.0.0.1:8787/posts");
       if (!response.ok) throw new Error("Could not fetch posts");
       const resData = await response.json();
-      console.log(resData);
       return resData;
     } catch (error) {
       alert(error);
@@ -49,7 +49,6 @@ const Posts = () => {
           <Button
             bg="none"
             _focus={{}}
-            // _hover={{}}
             borderRadius="30%"
             _active={{}}
             onClick={toggleColorMode}
@@ -57,7 +56,6 @@ const Posts = () => {
             <MdDarkMode />
           </Button>
         </Flex>
-
         <Text>
           Where people can talk about how much they love cloud computing and
           blockchain technology{" "}
@@ -89,17 +87,6 @@ const Posts = () => {
               </Text>
               <Text>{post.content} </Text>
             </Box>
-            <Flex ml="auto">
-              <Button
-                mr={3}
-                _focus={{}}
-                _hover={{ bg: "#1b85ce" }}
-                color="white"
-                bg="#1d9bf0"
-              >
-                Like
-              </Button>
-            </Flex>
           </Center>
         ))
       ) : (
@@ -108,98 +95,51 @@ const Posts = () => {
         </Center>
       )}
       <Flex w="30%" flexDir="column" p={5} borderRadius="10">
-        {userHasPosted || (
-          <>
-            <FormControl isRequired id="email">
-              <FormLabel>User name</FormLabel>
-              <Input
-                bg={colorMode === "dark" ? "gray.500" : "gray.200"}
-                _hover={{}}
-                _placeholder={{
-                  color: colorMode === "dark" ? "gray.200" : "gray",
-                }}
-                variant="outline"
-                _focus={{}}
-                placeholder="Please enter your username"
-                onChange={(e) => {
-                  setuserName(e.target.value);
-                }}
-                type="text"
-              />
-            </FormControl>
-            <FormControl id="email" isRequired>
-              <FormLabel mt={8}>Title</FormLabel>
-              <Input
-                bg={colorMode === "dark" ? "gray.500" : "gray.200"}
-                _hover={{}}
-                _placeholder={{
-                  color: colorMode === "dark" ? "gray.200" : "gray",
-                }}
-                _focus={{}}
-                variant="filled"
-                mb={1}
-                type="text"
-                onChange={(e) => {
-                  setpostTitle(e.target.value);
-                }}
-                placeholder="Title of post"
-              />
-              <Textarea
-                bg={colorMode === "dark" ? "gray.500" : "gray.200"}
-                _hover={{}}
-                _placeholder={{
-                  color: colorMode === "dark" ? "gray.200" : "gray",
-                }}
-                _focus={{}}
-                variant="filled"
-                placeholder="What's on your mind?"
-                mb={2}
-                onChange={(e) => {
-                  setpostContent(e.target.value);
-                }}
-              />
-            </FormControl>
-            <Button
-              size="lg"
-              ml="auto"
-              colorScheme="darkblue"
-              onClick={async () => {
-                if (userName.length < 20 && postContent && postTitle) {
-                  fetch("http://127.0.0.1:8787/posts", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      title: postTitle,
-                      content: postContent,
-                      username: userName,
-                      postedAt: `${
-                        months[new Date().getMonth()]
-                      } ${new Date().getDate()}, ${new Date().getFullYear()}`,
-                    }),
-                    mode: "no-cors",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                    },
-                  });
-                  doFetch();
-                  // setSubmittedPost(true);
-                  // updateMe();
-                  setUserHasPosted(true);
-                } else {
-                  alert("Please fill out data or make username shorter");
-                }
-                //
+        <>
+          <FormControl isRequired id="email">
+            <FormLabel>User name</FormLabel>
+            <Input
+              placeholder="Please enter your username"
+              onChange={(e) => {
+                setuserName(e.target.value);
               }}
-              _focus={{}}
-              _hover={{ bg: "#1b85ce" }}
-              bg="#1d9bf0"
-              color="white"
-            >
-              <Link href={window.location.href}>Post!</Link>
-              {/* Post! */}
-            </Button>
-          </>
-        )}
+              type="text"
+            />
+          </FormControl>
+          <FormControl id="email" isRequired>
+            <FormLabel mt={8}>Title</FormLabel>
+            <Input
+              mb={1}
+              type="text"
+              onChange={(e) => {
+                setpostTitle(e.target.value);
+              }}
+              placeholder="Title of post"
+            />
+            <Textarea
+              placeholder="What's on your mind?"
+              mb={2}
+              onChange={(e) => {
+                setpostContent(e.target.value);
+              }}
+            />
+          </FormControl>
+          <Button
+            size="lg"
+            ml="auto"
+            colorScheme="darkblue"
+            onClick={() => {
+              addPost(userName, postContent, postTitle);
+              doFetch();
+            }}
+            _focus={{}}
+            _hover={{ bg: "#1b85ce" }}
+            bg="#1d9bf0"
+            color="white"
+          >
+            <Link href={window.location.href}>Post!</Link>
+          </Button>
+        </>
       </Flex>
     </>
   );

@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Image } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import Posts from "./components/posts";
 // import { Button } from "@chakra-ui/button";
 
