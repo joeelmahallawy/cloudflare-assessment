@@ -23,7 +23,6 @@ const Posts = () => {
   const content = useRef(null);
   const title = useRef(null);
   const user = useRef(null);
-  const updateMe = useUpdate();
   const [postContent, setpostContent] = useState("");
   const [postTitle, setpostTitle] = useState("");
   const [userName, setuserName] = useState("");
@@ -138,7 +137,9 @@ const Posts = () => {
                   addPost(userName, postContent, postTitle);
                   doFetch();
                   setShowSuccess(true);
-                  updateMe();
+                  setTimeout(() => {
+                    setShowSuccess(false);
+                  }, 5000);
                   // @ts-expect-error
                   user.current.value = "";
                   // @ts-expect-error
@@ -146,9 +147,13 @@ const Posts = () => {
                   // @ts-expect-error
                   content.current.value = "";
                 } else {
+                  setTimeout(() => {
+                    setShowError(false);
+                  }, 5000);
                   setShowError(true);
                 }
               }}
+              ml="auto"
               _focus={{}}
               _hover={{ bg: "#1b85ce" }}
               bg="#1d9bf0"
