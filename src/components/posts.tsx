@@ -9,12 +9,11 @@ import {
   Input,
   FormControl,
   FormLabel,
-  Link,
   AlertIcon,
   Alert,
 } from "@chakra-ui/react";
-import React, { Ref, useEffect, useRef, useState } from "react";
-import { useAsyncFn, useUpdate } from "react-use";
+import React, { useEffect, useRef, useState } from "react";
+import { useAsyncFn } from "react-use";
 import { UserPosts } from "../interfaces/userPosts";
 import addPost from "../serverFunc/addPost";
 import { API_ENDPOINT } from "../configs/configs";

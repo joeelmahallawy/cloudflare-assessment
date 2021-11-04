@@ -1,5 +1,4 @@
 import { Router } from 'itty-router'
-
 const router = Router()
 
 router.get('/posts', async () => {
@@ -7,7 +6,6 @@ router.get('/posts', async () => {
   const posts = await Promise.all(
     keys.map(key => myfirstcf.get(key.name, { type: 'json' })),
   )
-
   return new Response(JSON.stringify(posts), {
     headers: {
       'Content-Type': 'application/json',
@@ -30,10 +28,7 @@ router.post('/posts', async request => {
     },
   })
 })
-
-// FIXME:
 router.all('*', () => new Response('404, not found!!', { status: 404 }))
-
 addEventListener('fetch', e => {
   e.respondWith(router.handle(e.request))
 })
