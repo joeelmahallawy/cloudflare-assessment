@@ -13,10 +13,10 @@ import {
   AlertIcon,
   Alert,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Ref, useEffect, useRef, useState } from "react";
 import { useAsyncFn, useUpdate } from "react-use";
 import { UserPosts } from "../interfaces/userPosts";
-import addPost from "../helpers/addPost";
+import addPost from "../serverFunc/addPost";
 import { API_ENDPOINT } from "../configs/configs";
 
 const Posts = () => {
@@ -112,6 +112,7 @@ const Posts = () => {
               mb={2}
               ref={content}
               onChange={(e) => {
+                console.log(e.target.value);
                 setpostContent(e.target.value);
               }}
             />
@@ -137,9 +138,6 @@ const Posts = () => {
                   addPost(userName, postContent, postTitle);
                   doFetch();
                   setShowSuccess(true);
-                  setuserName("");
-                  setpostContent("");
-                  setpostTitle("");
                   updateMe();
                   // @ts-expect-error
                   user.current.value = "";
@@ -156,7 +154,6 @@ const Posts = () => {
               bg="#1d9bf0"
               color="white"
             >
-              {/* <Link href={window.location.href}>Post!</Link> */}
               Post!
             </Button>
           </Center>
