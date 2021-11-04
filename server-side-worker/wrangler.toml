@@ -1,0 +1,13 @@
+name = "my-worker"
+type = "webpack"
+
+account_id = "5d1eb5ea50da5c3d7172ba653096c2d9"
+workers_dev = true
+route = ""
+zone_id = "0f1c8085d4ab58c74dfd5e83e321679b"
+compatibility_date = "2021-11-02"
+
+
+kv_namespaces = [ 
+{ binding = "myfirstcf", preview_id = "ec84cae0b112481088445cc574e5ba15", id = "7665ce3a3e9d4e37afce6ca95df701f8" }
+]
